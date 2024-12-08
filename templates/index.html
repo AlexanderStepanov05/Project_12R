@@ -3,112 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Forecast</title>
+    <title>Weather Route Checker</title>
     <style>
-        /* Общие стили */
         body {
             font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #74b9ff, #dfe6e9);
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #74ebd5, #acb6e5);
-            color: #333;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
+            align-items: center;
+            height: 100vh;
         }
-
         .container {
-            width: 100%;
-            max-width: 500px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
         h1 {
             margin-bottom: 20px;
-            font-size: 2.5em;
-            color: #333;
         }
-
         form {
             margin-bottom: 20px;
         }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: left;
-        }
-
-        input {
-            width: 100%;
+        input[type="text"] {
+            width: 80%;
             padding: 10px;
-            margin-bottom: 10px;
+            margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
-            box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
         }
-
         button {
-            background: #007BFF;
-            color: white;
             padding: 10px 20px;
+            background: #0984e3;
+            color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1em;
-            width: 100%;
         }
-
         button:hover {
-            background: #0056b3;
+            background: #74b9ff;
         }
-
-        .results {
+        .result {
             margin-top: 20px;
-            text-align: left;
-            padding: 15px;
-            border-top: 1px solid #ccc;
-        }
-
-        .results h2 {
-            margin: 0 0 10px 0;
-            font-size: 1.5em;
-        }
-
-        .results p {
-            margin: 5px 0;
+            font-size: 18px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Weather Forecast</h1>
-        <form method="POST">
-            <label for="city">Enter City Name:</label>
-            <input type="text" id="city" name="city" placeholder="e.g., New York" required>
-            <button type="submit">Get Forecast</button>
+        <h1>Weather Route Checker</h1>
+        <form method="POST" action="/check-weather">
+            <input type="text" name="start_city" placeholder="Начальная точка" required>
+            <input type="text" name="end_city" placeholder="Конечная точка" required>
+            <button type="submit">Проверить погоду</button>
         </form>
-
-        {% if conditions %}
-        <div class="results">
-            <h2>Current Conditions</h2>
-            <p><strong>Temperature:</strong> {{ conditions['Temperature']['Metric']['Value'] }} °C</p>
-            <p><strong>Weather:</strong> {{ conditions['WeatherText'] }}</p>
-        </div>
-        {% endif %}
-
-        {% if weather %}
-        <div class="results">
-            <h2>Forecast</h2>
-            <p><strong>{{ weather['Headline']['Text'] }}</strong></p>
-            <p><strong>Min Temperature:</strong> {{ weather['DailyForecasts'][0]['Temperature']['Minimum']['Value'] }} °C</p>
-            <p><strong>Max Temperature:</strong> {{ weather['DailyForecasts'][0]['Temperature']['Maximum']['Value'] }} °C</p>
+        {% if result %}
+        <div class="result">
+            {{ result }}
         </div>
         {% endif %}
     </div>
